@@ -24,7 +24,7 @@ class Carrito {
     }
 
     // agrega Item(Producto, cantidad) al array "items" del objeto Carrito
-    agregarItem() {
+    agregarItems() {
         let continuar;
         do {
             continuar = undefined;
@@ -70,9 +70,6 @@ class Carrito {
     }
 }
 
-// Listado de productos
-const productos = [new Producto(1, "Olla", 1000, 30), new Producto(2, "Vaso", 300, 100), new Producto(3, "Cubiertos", 500, 200), new Producto(4, "Jarra", 600, 80), new Producto(5, "Sartén", 900, 50)];
-
 // ABM de Producto
 function altaProducto() {
     let id = parseInt(prompt("Ingrese el id del producto:"));
@@ -95,8 +92,6 @@ function bajaProducto() {
         let index = productos.indexOf(producto);
         productos.splice(index, 1);
         console.log(productos);
-    } else {
-        alert("El id no existe.")
     }
 }
 
@@ -108,8 +103,6 @@ function modificacionProducto() {
         producto.precio = parseInt(prompt("Ingrese el precio del producto:"));
         producto.stock = parseInt(prompt("Ingrese el stock del producto:"));
         console.log(productos);
-    } else {
-        alert("El id no existe.")
     }
 }
 
@@ -121,34 +114,43 @@ function buscarProducto(id) {
     }
     let producto = productos.find(producto => producto.id == id);
     if (!producto) {
-        alert("El producto no existe.");
+        alert("El producto no existe."); //
         return undefined;
     }
     else
         return producto;
 }
 
+// array de productos
+const productos = [
+    new Producto(1, "Olla", 1000, 30),
+    new Producto(2, "Vaso", 300, 100),
+    new Producto(3, "Cubiertos", 500, 200),
+    new Producto(4, "Jarra", 600, 80),
+    new Producto(5, "Sartén", 900, 50)
+];
+
 // Ejecución
 let menu;
 do {
-    menu = prompt("Ingresa:\n" +
+    menu = parseInt(prompt("Ingresa:\n" +
         "1: Alta de producto\n" +
         "2: Baja de producto\n" +
         "3: Modificación de producto\n" +
-        "4: Agregar productos al carrito");
+        "4: Agregar productos al carrito"));
     switch (menu) {
-        case "1":
+        case 1:
             altaProducto();
             break;
-        case "2":
+        case 2:
             bajaProducto();
             break;
-        case "3":
+        case 3:
             modificacionProducto();
             break;
-        case "4":
+        case 4:
             let carrito = new Carrito();
-            carrito.agregarItem();
+            carrito.agregarItems();
             alert("CARRITO:\n" +
                 carrito.mostrarListado() +
                 "--------------------------------------------\n" +
@@ -156,6 +158,6 @@ do {
                 "Total con IVA(21%)= $" + carrito.calcularTotalIva());
             break;
     }
-} while (menu != "1" && menu != "2" && menu != "3" && menu != "4");
+} while (menu != 1 && menu != 2 && menu != 3 && menu != 4);
 
 
