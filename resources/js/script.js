@@ -33,6 +33,9 @@ class Carrito {
             let item;
             while (!producto) {
                 producto = buscarProducto(Number(prompt("Ingresa N° del producto:")));
+                if (!producto) {
+                    alert("El producto no existe.");
+                }
             }
             while (isNaN(cantidad) || cantidad < 1 || cantidad > producto.stock) {
                 cantidad = Number(prompt("Ingresa cantidad del producto:"));
@@ -72,39 +75,78 @@ class Carrito {
 
 // ABM de Producto
 function altaProducto() {
-    let id = parseInt(prompt("Ingrese el id del producto:"));
-    if (!buscarProducto(id)) {
-        let nombre = prompt("Ingrese el nombre del producto:");
-        let precio = parseInt(prompt("Ingrese el precio del producto:"));
-        let stock = parseInt(prompt("Ingrese el stock del producto:"));
-        let producto = new Producto(id, nombre, precio, stock);
-        productos.push(producto);
-        console.log(productos);
-    } else {
-        alert("El id ya existe.")
-    }
+    let producto = undefined;
+    do {
+        let id = undefined;
+        do {
+            id = parseInt(prompt("Ingrese el id del producto:"));
+        } while (isNaN(id));
+        producto = buscarProducto(id);
+        if (!producto) {
+            let productoNuevo = new Producto(id);
+            do {
+                productoNuevo.nombre = prompt("Ingrese el nombre del producto:");
+            } while (!productoNuevo.nombre);
+            do {
+                productoNuevo.precio = parseInt(prompt("Ingrese el precio del producto:"));
+            } while (isNaN(productoNuevo.precio));
+            do {
+                productoNuevo.stock = parseInt(prompt("Ingrese el stock del producto:"));
+            } while (isNaN(productoNuevo.stock));
+            productos.push(productoNuevo);
+            console.log(productos);
+            actualizarLista();
+        } else {
+            alert("El id ya existe.")
+        }
+    } while (producto);
 }
 
 function bajaProducto() {
-    let id = parseInt(prompt("Ingrese el id del producto:"));
-    let producto = buscarProducto(id);
-    if (producto) {
-        let index = productos.indexOf(producto);
-        productos.splice(index, 1);
-        console.log(productos);
+    let producto = undefined;
+    while (!producto) {
+        let id = undefined;
+        do {
+            id = parseInt(prompt("Ingrese el id del producto:"));
+        } while (isNaN(id));
+        producto = buscarProducto(id);
+        if (producto) {
+            let index = productos.indexOf(producto);
+            productos.splice(index, 1);
+            console.log(productos);
+            actualizarLista();
+        } else {
+            alert("El producto no existe.");
+        }
     }
 }
 
 function modificacionProducto() {
-    let id = parseInt(prompt("Ingrese el id del producto:"));
-    let producto = buscarProducto(id);
-    if (producto) {
-        producto.nombre = prompt("Ingrese el nombre del producto:");
-        producto.precio = parseInt(prompt("Ingrese el precio del producto:"));
-        producto.stock = parseInt(prompt("Ingrese el stock del producto:"));
-        console.log(productos);
+    let producto = undefined;
+    while (!producto) {
+        let id = undefined;
+        do {
+            id = parseInt(prompt("Ingrese el id del producto:"));
+        } while (isNaN(id));
+        producto = buscarProducto(id);
+        if (producto) {
+            do {
+                producto.nombre = prompt("Ingrese el nombre del producto:");
+            } while (!producto.nombre);
+            do {
+                producto.precio = parseInt(prompt("Ingrese el precio del producto:"));
+            } while (isNaN(producto.precio));
+            do {
+                producto.stock = parseInt(prompt("Ingrese el stock del producto:"));
+            } while (isNaN(producto.stock));
+            console.log(productos);
+            actualizarLista();
+        } else {
+            alert("El producto no existe.");
+        }
     }
 }
+
 
 // busca un producto por su id y lo devuelve, si no existe -> undefined
 function buscarProducto(id) {
@@ -114,11 +156,21 @@ function buscarProducto(id) {
     }
     let producto = productos.find(producto => producto.id == id);
     if (!producto) {
-        alert("El producto no existe."); //
+        // alert("El producto no existe.");
         return undefined;
     }
     else
         return producto;
+}
+
+function actualizarLista() {
+    const ol = document.getElementById("productos");
+    ol.replaceChildren();
+    for (let producto of productos) {
+        let item = document.createElement("li");
+        item.innerText = `${producto.id}: ${producto.nombre} - $${producto.precio} - Stock: ${producto.stock}`;
+        ol.appendChild(item);
+    }
 }
 
 // array de productos
@@ -129,35 +181,27 @@ const productos = [
     new Producto(4, "Jarra", 600, 80),
     new Producto(5, "Sartén", 900, 50)
 ];
+const carrito = new Carrito();
 
-// Ejecución
-let menu;
-do {
-    menu = parseInt(prompt("Ingresa:\n" +
-        "1: Alta de producto\n" +
-        "2: Baja de producto\n" +
-        "3: Modificación de producto\n" +
-        "4: Agregar productos al carrito"));
-    switch (menu) {
-        case 1:
-            altaProducto();
-            break;
-        case 2:
-            bajaProducto();
-            break;
-        case 3:
-            modificacionProducto();
-            break;
-        case 4:
-            let carrito = new Carrito();
-            carrito.agregarItems();
-            alert("CARRITO:\n" +
-                carrito.mostrarListado() +
-                "--------------------------------------------\n" +
-                "Total= $" + carrito.calcularTotal() + "\n" +
-                "Total con IVA(21%)= $" + carrito.calcularTotalIva());
-            break;
-    }
-} while (menu != 1 && menu != 2 && menu != 3 && menu != 4);
+const altaButton = document.getElementById("alta");
+altaButton.onclick = () => (altaProducto());
 
+const bajaButton = document.getElementById("baja");
+bajaButton.onclick = () => (bajaProducto());
 
+const modificacionButton = document.getElementById("modificacion");
+modificacionButton.onclick = () => (modificacionProducto());
+
+const agregarButton = document.getElementById("agregar");
+agregarButton.onclick = () => {
+    carrito.agregarItems();
+};
+
+const verCarritoButton = document.getElementById("ver");
+verCarritoButton.onclick = () => {
+    alert("CARRITO:\n" +
+        carrito.mostrarListado() +
+        "--------------------------------------------\n" +
+        "Total= $" + carrito.calcularTotal() + "\n" +
+        "Total con IVA(21%)= $" + carrito.calcularTotalIva());
+};
