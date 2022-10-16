@@ -23,7 +23,7 @@ class Carrito {
         this.items = [];
     }
 
-    // agrega Item(Producto, cantidad) al array "items" del objeto Carrito
+    // agrega Item(Producto, cantidad) al array "items" del Carrito
     agregarItems() {
         let continuar;
         do {
@@ -45,8 +45,13 @@ class Carrito {
                     alert("Ingresa un número menor al stock: " + producto.stock);
             }
 
-            if (item = this.items.find(item => item.producto.id == producto.id)) // si el Producto ya existe en el carrito le sumo la cantidad
-                item.cantidad += cantidad;
+            if (item = this.items.find(item => item.producto.id == producto.id)) {
+                if (item.cantidad + cantidad >= stock) {
+                    item.cantidad = producto.stock;
+                    alert("Stock máximo alcanzado.");
+                } else
+                    item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
+            }
             else
                 this.items.push(new Item(producto, cantidad)); // sino lo agrego
 
@@ -56,7 +61,6 @@ class Carrito {
                     alert("Ingresa 's' o 'n'.");
             }
         } while (continuar == "s");
-        // console.log(this.items);
     }
 
     // devuelve un listado de los productos agregados al carrito
@@ -93,8 +97,9 @@ function altaProducto() {
             do {
                 productoNuevo.stock = parseInt(prompt("Ingrese el stock del producto:"));
             } while (isNaN(productoNuevo.stock));
+            let productos = JSON.parse(localStorage.getItem("productos"));
             productos.push(productoNuevo);
-            console.log(productos);
+            localStorage.setItem("productos", JSON.stringify(productos));
             actualizarLista();
         } else {
             alert("El id ya existe.")
@@ -111,9 +116,14 @@ function bajaProducto() {
         } while (isNaN(id));
         producto = buscarProducto(id);
         if (producto) {
-            let index = productos.indexOf(producto);
-            productos.splice(index, 1);
-            console.log(productos);
+            let productos = JSON.parse(localStorage.getItem("productos"));
+            for (let i = 0; i < productos.length; i++) {
+                if (productos[i].id == producto.id) {
+                    productos.splice(i, 1);
+                    break;
+                }
+            }
+            localStorage.setItem("productos", JSON.stringify(productos));
             actualizarLista();
         } else {
             alert("El producto no existe.");
@@ -139,7 +149,14 @@ function modificacionProducto() {
             do {
                 producto.stock = parseInt(prompt("Ingrese el stock del producto:"));
             } while (isNaN(producto.stock));
-            console.log(productos);
+            let productos = JSON.parse(localStorage.getItem("productos"));
+            for (let i = 0; i < productos.length; i++) {
+                if (productos[i].id == producto.id) {
+                    productos[i] = producto;
+                    break;
+                }
+            }
+            localStorage.setItem("productos", JSON.stringify(productos));
             actualizarLista();
         } else {
             alert("El producto no existe.");
@@ -147,13 +164,13 @@ function modificacionProducto() {
     }
 }
 
-
 // busca un producto por su id y lo devuelve, si no existe -> undefined
 function buscarProducto(id) {
     if (isNaN(id)) {
         alert("Ingresa un número válido.");
         return undefined;
     }
+    let productos = JSON.parse(localStorage.getItem("productos"));
     let producto = productos.find(producto => producto.id == id);
     if (!producto) {
         // alert("El producto no existe.");
@@ -166,6 +183,7 @@ function buscarProducto(id) {
 function actualizarLista() {
     const ol = document.getElementById("productos");
     ol.replaceChildren();
+    let productos = JSON.parse(localStorage.getItem("productos"));
     for (let producto of productos) {
         let item = document.createElement("li");
         item.innerText = `${producto.id}: ${producto.nombre} - $${producto.precio} - Stock: ${producto.stock}`;
@@ -173,16 +191,18 @@ function actualizarLista() {
     }
 }
 
-// array de productos
-const productos = [
+// Productos en LocalStorage
+localStorage.setItem("productos", JSON.stringify([
     new Producto(1, "Olla", 1000, 30),
     new Producto(2, "Vaso", 300, 100),
     new Producto(3, "Cubiertos", 500, 200),
     new Producto(4, "Jarra", 600, 80),
     new Producto(5, "Sartén", 900, 50)
-];
+]));
+
 const carrito = new Carrito();
 
+// Buttons
 const altaButton = document.getElementById("alta");
 altaButton.onclick = () => (altaProducto());
 
