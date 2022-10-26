@@ -1,9 +1,10 @@
 class Producto {
-    constructor(id, nombre, precio, stock) {
+    constructor(id, nombre, precio, stock, imagen) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
+        this.imagen = imagen;
     }
 
     reducirStock(cantidad) {
@@ -46,14 +47,15 @@ class Carrito {
             }
 
             if (item = this.items.find(item => item.producto.id == producto.id)) {
-                if (item.cantidad + cantidad >= stock) {
+                if (item.cantidad + cantidad >= producto.stock) {
                     item.cantidad = producto.stock;
                     alert("Stock máximo alcanzado.");
                 } else
                     item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
             }
-            else
+            else {
                 this.items.push(new Item(producto, cantidad)); // sino lo agrego
+            }
 
             while (continuar != "s" && continuar != "n") {
                 continuar = prompt("¿Desea seguir agregando productos (s/n)?");
@@ -74,6 +76,10 @@ class Carrito {
     // devuelve el total más el IVA
     calcularTotalIva() {
         return this.calcularTotal() * 1.21;
+    }
+
+    vaciarCarrito() {
+        this.items = [];
     }
 }
 
@@ -200,7 +206,13 @@ localStorage.setItem("productos", JSON.stringify([
     new Producto(5, "Sartén", 900, 50)
 ]));
 
-const carrito = new Carrito();
+// Carrito en SessionStorage
+let carrito = new Carrito();
+let sessionCarrito = JSON.parse(sessionStorage.getItem("carrito"));
+if (sessionCarrito != null)
+    carrito.items = sessionCarrito.items;
+
+console.log(carrito);
 
 // Buttons
 const altaButton = document.getElementById("alta");
@@ -215,6 +227,7 @@ modificacionButton.onclick = () => (modificacionProducto());
 const agregarButton = document.getElementById("agregar");
 agregarButton.onclick = () => {
     carrito.agregarItems();
+    sessionStorage.setItem("carrito", JSON.stringify(carrito));
 };
 
 const verCarritoButton = document.getElementById("ver");
@@ -224,4 +237,10 @@ verCarritoButton.onclick = () => {
         "--------------------------------------------\n" +
         "Total= $" + carrito.calcularTotal() + "\n" +
         "Total con IVA(21%)= $" + carrito.calcularTotalIva());
+};
+
+const vaciarButton = document.getElementById("vaciar");
+vaciarButton.onclick = () => {
+    carrito.vaciarCarrito();
+    sessionStorage.clear();
 };
