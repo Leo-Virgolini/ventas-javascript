@@ -156,10 +156,11 @@ console.log(carrito);
 
 function mostrarCarrito() {
     let carrito = JSON.parse(sessionStorage.getItem("carrito"));
+
+    const div = document.getElementById("carrito");
+    console.log(carrito);
+    div.replaceChildren();
     if (carrito != null) {
-        const div = document.getElementById("carrito");
-        console.log(carrito);
-        div.replaceChildren();
         for (let item of carrito.items) {
             const card = document.createElement("div");
             card.innerHTML = `
