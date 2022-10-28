@@ -25,55 +25,37 @@ class Carrito {
     }
 
     // agrega Item(Producto, cantidad) al array "items" del Carrito
-    agregarItems() {
-        let continuar;
-        do {
-            continuar = undefined;
-            let producto;
-            let cantidad;
-            let item;
-            while (!producto) {
-                producto = buscarProducto(Number(prompt("Ingresa N° del producto:")));
-                if (!producto) {
-                    alert("El producto no existe.");
-                }
-            }
-            while (isNaN(cantidad) || cantidad < 1 || cantidad > producto.stock) {
-                cantidad = Number(prompt("Ingresa cantidad del producto:"));
-                if (isNaN(cantidad) || cantidad < 1)
-                    alert("Ingresa un número mayor a 0.");
-                else if (cantidad > producto.stock)
-                    alert("Ingresa un número menor al stock: " + producto.stock);
-            }
+    agregarItem(idProducto, cantidad) {
 
-            if (item = this.items.find(item => item.producto.id == producto.id)) {
-                if (item.cantidad + cantidad >= producto.stock) {
-                    item.cantidad = producto.stock;
-                    alert("Stock máximo alcanzado.");
-                } else
-                    item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
-            }
-            else {
-                this.items.push(new Item(producto, cantidad)); // sino lo agrego
-            }
+        let producto;
+        let item;
 
-            while (continuar != "s" && continuar != "n") {
-                continuar = prompt("¿Desea seguir agregando productos (s/n)?");
-                if (continuar != "s" && continuar != "n")
-                    alert("Ingresa 's' o 'n'.");
-            }
-        } while (continuar == "s");
+        producto = buscarProducto(Number(idProducto));
+        if (!producto) {
+            Swal.fire('El producto no existe.');
+            return;
+        }
+
+        if (item = this.items.find(item => item.producto.id == producto.id)) {
+            if (item.cantidad + cantidad >= producto.stock) {
+                item.cantidad = producto.stock;
+                Swal.fire("Stock máximo alcanzado.");
+            } else
+                item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
+        }
+        else {
+            this.items.push(new Item(producto, cantidad)); // sino lo agrego
+        }
     }
 
-    // devuelve un listado de los productos agregados al carrito
     mostrarListado() {
         return this.items.reduce((acumulador, item) => acumulador + "-" + item.producto.nombre + " x" + item.cantidad + "= $" + item.producto.precio * item.cantidad + "\n", "");
     }
-    // devuelve el total del precio de todos los productos del carrito
+
     calcularTotal() {
         return this.items.reduce((acumulador, item) => acumulador + (item.producto.precio * item.cantidad), 0);
     }
-    // devuelve el total más el IVA
+
     calcularTotalIva() {
         return this.calcularTotal() * 1.21;
     }
@@ -83,127 +65,85 @@ class Carrito {
     }
 }
 
-// ABM de Producto
-function altaProducto() {
-    let producto = undefined;
-    do {
-        let id = undefined;
-        do {
-            id = parseInt(prompt("Ingrese el id del producto:"));
-        } while (isNaN(id));
-        producto = buscarProducto(id);
-        if (!producto) {
-            let productoNuevo = new Producto(id);
-            do {
-                productoNuevo.nombre = prompt("Ingrese el nombre del producto:");
-            } while (!productoNuevo.nombre);
-            do {
-                productoNuevo.precio = parseInt(prompt("Ingrese el precio del producto:"));
-            } while (isNaN(productoNuevo.precio));
-            do {
-                productoNuevo.stock = parseInt(prompt("Ingrese el stock del producto:"));
-            } while (isNaN(productoNuevo.stock));
-            let productos = JSON.parse(localStorage.getItem("productos"));
-            productos.push(productoNuevo);
-            localStorage.setItem("productos", JSON.stringify(productos));
-            actualizarLista();
-        } else {
-            alert("El id ya existe.")
-        }
-    } while (producto);
-}
-
-function bajaProducto() {
-    let producto = undefined;
-    while (!producto) {
-        let id = undefined;
-        do {
-            id = parseInt(prompt("Ingrese el id del producto:"));
-        } while (isNaN(id));
-        producto = buscarProducto(id);
-        if (producto) {
-            let productos = JSON.parse(localStorage.getItem("productos"));
-            for (let i = 0; i < productos.length; i++) {
-                if (productos[i].id == producto.id) {
-                    productos.splice(i, 1);
-                    break;
-                }
-            }
-            localStorage.setItem("productos", JSON.stringify(productos));
-            actualizarLista();
-        } else {
-            alert("El producto no existe.");
-        }
-    }
-}
-
-function modificacionProducto() {
-    let producto = undefined;
-    while (!producto) {
-        let id = undefined;
-        do {
-            id = parseInt(prompt("Ingrese el id del producto:"));
-        } while (isNaN(id));
-        producto = buscarProducto(id);
-        if (producto) {
-            do {
-                producto.nombre = prompt("Ingrese el nombre del producto:");
-            } while (!producto.nombre);
-            do {
-                producto.precio = parseInt(prompt("Ingrese el precio del producto:"));
-            } while (isNaN(producto.precio));
-            do {
-                producto.stock = parseInt(prompt("Ingrese el stock del producto:"));
-            } while (isNaN(producto.stock));
-            let productos = JSON.parse(localStorage.getItem("productos"));
-            for (let i = 0; i < productos.length; i++) {
-                if (productos[i].id == producto.id) {
-                    productos[i] = producto;
-                    break;
-                }
-            }
-            localStorage.setItem("productos", JSON.stringify(productos));
-            actualizarLista();
-        } else {
-            alert("El producto no existe.");
-        }
-    }
-}
-
 // busca un producto por su id y lo devuelve, si no existe -> undefined
 function buscarProducto(id) {
     if (isNaN(id)) {
-        alert("Ingresa un número válido.");
         return undefined;
     }
     let productos = JSON.parse(localStorage.getItem("productos"));
     let producto = productos.find(producto => producto.id == id);
     if (!producto) {
-        // alert("El producto no existe.");
         return undefined;
     }
     else
         return producto;
 }
 
-function actualizarLista() {
-    const ol = document.getElementById("productos");
-    ol.replaceChildren();
+function mostrarProductos() {
     let productos = JSON.parse(localStorage.getItem("productos"));
+    const div = document.getElementById("productos");
+    div.replaceChildren();
     for (let producto of productos) {
-        let item = document.createElement("li");
-        item.innerText = `${producto.id}: ${producto.nombre} - $${producto.precio} - Stock: ${producto.stock}`;
-        ol.appendChild(item);
+        const card = document.createElement("div");
+        card.innerHTML = `
+<div class="col">
+    <div class="card cardProducto d-flex flex-column justify-content-center align-items-center h-100">
+        <div class="card-header-pills">
+            <span class="badge text-bg-info">Novedad</span>
+        </div>
+        <a href="./pages/404.html">
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top img-fluid w-100" loading="lazy">
+        </a>
+        <div class="card-body text-center">
+            <h5 class="card-title precio text-success">$${producto.precio}</h5>
+            <p class="card-text">${producto.nombre}</p>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+            <a id="button${producto.id}" type="button" class="btn btn-primary" href="#">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Agregar al carrito
+            </a>
+        </div>
+    </div>
+</div> 
+    `;
+        div.appendChild(card);
+
+        //Agregar productos al carrito: 
+        const agregarButton = document.getElementById(`button${producto.id}`);
+        agregarButton.addEventListener("click", () => {
+            // carrito.agregarItem(producto.id, Swal.fire({
+            //     title: 'Cantidad',
+            //     icon: 'question',
+            //     input: 'range',
+            //     inputLabel: 'Cantidad',
+            //     inputAttributes: {
+            //         min: 1,
+            //         max: producto.stock,
+            //         step: 1
+            //     },
+            //     inputValue: 1
+            // }));
+            carrito.agregarItem(producto.id, 1);
+            Swal.fire("\'" + producto.nombre + '\' agregado al carrito.');
+            sessionStorage.setItem("carrito", JSON.stringify(carrito));
+        })
     }
 }
 
 // Productos en LocalStorage
 localStorage.setItem("productos", JSON.stringify([
-    new Producto(1, "Olla", 1000, 30),
-    new Producto(2, "Vaso", 300, 100),
-    new Producto(3, "Cubiertos", 500, 200),
-    new Producto(4, "Jarra", 600, 80),
-    new Producto(5, "Sartén", 900, 50)
+    new Producto(1, "Panera", 1000, 30, "./resources/images/productos/1.png"),
+    new Producto(2, "Jarra", 300, 100, "./resources/images/productos/2.png"),
+    new Producto(3, "Batidora", 500, 200, "./resources/images/productos/3.png"),
+    new Producto(4, "Taza de Café", 600, 80, "./resources/images/productos/4.png"),
+    new Producto(5, "Taza de Café", 900, 50, "./resources/images/productos/5.png"),
+    new Producto(6, "Tupper", 700, 60, "./resources/images/productos/6.png"),
+    new Producto(7, "Plato", 350, 70, "./resources/images/productos/7.png"),
+    new Producto(8, "Cafetera", 800, 60, "./resources/images/productos/8.png"),
+    new Producto(9, "Termo plástico", 1100, 40, "./resources/images/productos/9.png"),
+    new Producto(10, "Termo", 1500, 50, "./resources/images/productos/10.png"),
+    new Producto(11, "Coctelería", 2000, 55, "./resources/images/productos/11.png"),
+    new Producto(12, "Ollas", 3000, 70, "./resources/images/productos/12.png")
 ]));
 
 // Carrito en SessionStorage
@@ -214,33 +154,43 @@ if (sessionCarrito != null)
 
 console.log(carrito);
 
-// Buttons
-const altaButton = document.getElementById("alta");
-altaButton.onclick = () => (altaProducto());
-
-const bajaButton = document.getElementById("baja");
-bajaButton.onclick = () => (bajaProducto());
-
-const modificacionButton = document.getElementById("modificacion");
-modificacionButton.onclick = () => (modificacionProducto());
-
-const agregarButton = document.getElementById("agregar");
-agregarButton.onclick = () => {
-    carrito.agregarItems();
-    sessionStorage.setItem("carrito", JSON.stringify(carrito));
-};
+function mostrarCarrito() {
+    let carrito = JSON.parse(sessionStorage.getItem("carrito"));
+    if (carrito != null) {
+        const div = document.getElementById("carrito");
+        console.log(carrito);
+        div.replaceChildren();
+        for (let item of carrito.items) {
+            const card = document.createElement("div");
+            card.innerHTML = `
+    <div>
+                <img src="${item.producto.imagen}" alt="${item.producto.nombre}" class="card-img-top img-fluid w-100" loading="lazy">
+                <p class="card-text">${item.producto.nombre}</p>
+                <h5 class="card-title precio text-success">$${item.producto.precio} x${item.cantidad}</h5>
+    </div> 
+        `;
+            div.appendChild(card);
+        }
+        // const total = document.createElement("div");
+        // total.innerHTML = `
+        // <div>
+        //     TOTAL=$ ${carrito.calcularTotalIva()}
+        // </div> 
+        //     `;
+        // div.appendChild(total);
+    }
+}
 
 const verCarritoButton = document.getElementById("ver");
 verCarritoButton.onclick = () => {
-    alert("CARRITO:\n" +
-        carrito.mostrarListado() +
-        "--------------------------------------------\n" +
-        "Total= $" + carrito.calcularTotal() + "\n" +
-        "Total con IVA(21%)= $" + carrito.calcularTotalIva());
+    mostrarCarrito();
 };
 
 const vaciarButton = document.getElementById("vaciar");
 vaciarButton.onclick = () => {
     carrito.vaciarCarrito();
     sessionStorage.clear();
+    mostrarCarrito();
 };
+
+mostrarProductos();

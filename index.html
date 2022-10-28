@@ -5,39 +5,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito</title>
+    <meta name="description" content="Página principal de e-commerce de venta de productos de bazar.">
+    <meta name="keywords" content="comprar, ventas, artículos, productos, bazar, cocina">
+    <link rel="icon" type="image/png" href="resources/favicon/venta.png">
+    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/css/styles.css">
+    <script src="https://kit.fontawesome.com/bda957b7e9.js" crossorigin="anonymous"></script>
+    <title>Ventas™-Home</title>
 </head>
 
 <body>
 
-    <h1>Productos</h1>
+    <div class="container-fluid">
 
-    <ul id="productos">
-        <li>
-            1: Olla - $1000 - Stock: 30
-        </li>
-        <li>
-            2: Vaso - $300 - Stock: 100
-        </li>
-        <li>
-            3: Cubiertos - $500 - Stock: 200
-        </li>
-        <li>
-            4: Jarra - $600 - Stock: 80
-        </li>
-        <li>
-            5: Sartén - $900 - Stock: 50
-        </li>
-    </ul>
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12 g-0">
+                <header>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 g-0 mb-1">
+                                <!-- Logo -->
+                                <a href="index.html" class="logo bg-gradient d-flex justify-content-center align-items-center w-100">
+                                    <img src="resources/images/iconos/logo4.png" alt="Logo">
+                                    <h1 class="mb-0">VENTAS™</h1>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
 
-    <button id="alta">Alta de producto</button>
-    <button id="baja">Baja de producto</button>
-    <button id="modificacion">Modificación de producto</button>
-    <br><br>
-    <button id="agregar">Agregar al carrito</button>
-    <button id="ver">Ver carrito</button>
-    <button id="vaciar">Vaciar carrito</button>
+        <div class="row">
+            <div class="col-12 g-0">
+                <main>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Productos -->
+                            <section class="productos pt-3 pb-4">
+                                <div class="container-fluid">
+                                    <h2 class="text-center">PRODUCTOS</h2>
+                                    <div id="productos" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-5">
+                                        <!-- Cards -->
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- Carrito -->
+                            <section>
+                                <div class="container-fluid">
+                                    <h2 class="text-center">CARRITO</h2>
+                                    <div id="carrito" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-5">
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
 
+    </div>
+
+    <button id="ver" class="btn btn-primary">Ver carrito</button>
+    <button id="vaciar" class="btn btn-primary">Vaciar carrito</button>
+
+    <script src="resources/js/bootstrap.bundle.min.js"></script>
+    <script src="resources/js/sweetalert2.all.min.js"></script>
     <script src="resources/js/script.js"></script>
 </body>
 
