@@ -99,65 +99,63 @@ function buscarProductoId(idProducto) {
         return producto;
 }
 
-function mostrarProductos(productosPromise) {
+function mostrarProductos(productos) {
     const div = document.getElementById("productos");
     div.replaceChildren();
-    productosPromise.then((productos) => {
-        console.log(productos);
-        if (productos?.length > 0) {
-            for (let producto of productos) {
-                const card = document.createElement("div");
-                card.innerHTML = `
-    <div class="col">
-        <div class="card cardProducto d-flex flex-column justify-content-center align-items-center h-100">
-            <div class="card-header-pills">
-                <span class="badge text-bg-info">Novedad</span>
-            </div>
-            <a href="./pages/404.html">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top img-fluid w-100" loading="lazy">
-            </a>
-            <div class="card-body text-center">
-                <h5 class="card-title precio text-success">$${producto.precio}</h5>
-                <p class="card-text">${producto.nombre}</p>
-            </div>
-            <div class="card-footer bg-transparent border-0">
-                <a id="agregar${producto.id}" type="button" class="btn btn-primary" href="#">
-                    <i class="fa-solid fa-cart-shopping me-2"></i>Agregar al carrito
-                </a>
-            </div>
-        </div>
-    </div> 
-        `;
-                div.appendChild(card);
+    console.log(productos);
+    if (productos?.length > 0) {
+        for (let producto of productos) {
+            const card = document.createElement("div");
+            card.innerHTML = `
+                    <div class="col">
+                        <div class="card cardProducto d-flex flex-column justify-content-center align-items-center h-100">
+                            <div class="card-header-pills">
+                                <span class="badge text-bg-info">Novedad</span>
+                            </div>
+                            <a href="./pages/404.html">
+                                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top img-fluid w-100" loading="lazy">
+                            </a>
+                            <div class="card-body text-center">
+                                <h5 class="card-title precio text-success">$${producto.precio}</h5>
+                                <p class="card-text">${producto.nombre}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a id="agregar${producto.id}" type="button" class="btn btn-primary" href="#">
+                                    <i class="fa-solid fa-cart-shopping me-2"></i>Agregar al carrito
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                        `;
+            div.appendChild(card);
 
-                //Agregar productos al carrito: 
-                const agregarButton = document.getElementById(`agregar${producto.id}`);
-                agregarButton.addEventListener("click", () => {
-                    // const { value: cantidad } = Swal.fire({
-                    //     title: 'Cantidad',
-                    //     icon: 'question',
-                    //     input: 'range',
-                    //     inputLabel: 'Cantidad',
-                    //     inputAttributes: {
-                    //         min: 1,
-                    //         max: producto.stock,
-                    //         step: 1
-                    //     },
-                    //     inputValue: 1
-                    // });
-                    carrito.agregarItem(producto.id, 1);
-                    Swal.fire({
-                        title: "\'" + producto.nombre + '\' agregado al carrito.',
-                        icon: 'success'
-                    });
-                    sessionStorage.setItem("carrito", JSON.stringify(carrito));
-                    mostrarCarrito();
+            //Agregar productos al carrito: 
+            const agregarButton = document.getElementById(`agregar${producto.id}`);
+            agregarButton.addEventListener("click", () => {
+                // const { value: cantidad } = Swal.fire({
+                //     title: 'Cantidad',
+                //     icon: 'question',
+                //     input: 'range',
+                //     inputLabel: 'Cantidad',
+                //     inputAttributes: {
+                //         min: 1,
+                //         max: producto.stock,
+                //         step: 1
+                //     },
+                //     inputValue: 1
+                // });
+                carrito.agregarItem(producto.id, 1);
+                Swal.fire({
+                    title: "\'" + producto.nombre + '\' agregado al carrito.',
+                    icon: 'success'
                 });
-            }
-        } else {
-            div.innerHTML = "No se encontraron productos.";
+                sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                mostrarCarrito();
+            });
         }
-    });
+    } else {
+        div.innerHTML = "No se encontraron productos.";
+    }
 }
 
 function mostrarCarrito() {
@@ -235,7 +233,6 @@ function mostrarCarritoAlert() {
 
     let carritoDiv = "";
     if (carrito?.items?.length > 0) {
-
         carritoDiv += `
         <div class="carrito">
             <div class="container-fluid">
@@ -321,9 +318,13 @@ function mostrarCarritoAlert() {
 
 function buscarProductos(nombreProducto) {
     // const productos = JSON.parse(localStorage.getItem("productos"));
-    const productos = obtenerProductos();
-    const productosFiltrados = productos.filter((producto) => producto.nombre.toLowerCase().startsWith(nombreProducto.toLowerCase()));
-    mostrarProductos(productosFiltrados);
+    fetch("./resources/json/productos.json")
+        .then((response) => response.json())
+        .then((productos) => {
+            const productosFiltrados = productos.filter((producto) => producto.nombre.toLowerCase().startsWith(nombreProducto.toLowerCase()));
+            mostrarProductos(productosFiltrados);
+        })
+        .catch(error => console.error("Se ha producido un error al obtener productos.json."));
 }
 
 const verCarritoButton = document.getElementById("verButton");
@@ -350,28 +351,6 @@ carritoButton.onclick = () => {
     mostrarCarritoAlert();
 };
 
-// Productos en LocalStorage
-// localStorage.setItem("productos", JSON.stringify([
-//     new Producto(1, "Panera", 1000, 30, "./resources/images/productos/1.png"),
-//     new Producto(2, "Jarra", 300, 100, "./resources/images/productos/2.png"),
-//     new Producto(3, "Batidora", 500, 200, "./resources/images/productos/3.png"),
-//     new Producto(4, "Taza de Café", 600, 80, "./resources/images/productos/4.png"),
-//     new Producto(5, "Taza de Café", 900, 50, "./resources/images/productos/5.png"),
-//     new Producto(6, "Tupper", 700, 60, "./resources/images/productos/6.png"),
-//     new Producto(7, "Plato", 350, 70, "./resources/images/productos/7.png"),
-//     new Producto(8, "Cafetera", 800, 60, "./resources/images/productos/8.png"),
-//     new Producto(9, "Termo plástico", 1100, 40, "./resources/images/productos/9.png"),
-//     new Producto(10, "Termo", 1500, 50, "./resources/images/productos/10.png"),
-//     new Producto(11, "Coctelería", 2000, 55, "./resources/images/productos/11.png"),
-//     new Producto(12, "Ollas", 3000, 70, "./resources/images/productos/12.png")
-// ]));
-
-let productosPromise = fetch("./resources/json/productos.json")
-    .then((response) => response.json())
-    .then((productos) => {
-        return productos;
-    });
-
 // Carrito en SessionStorage
 const carrito = new Carrito();
 const sessionCarrito = JSON.parse(sessionStorage.getItem("carrito"));
@@ -380,6 +359,9 @@ if (sessionCarrito != null)
 
 console.log(carrito);
 
-// mostrarProductos(JSON.parse(localStorage.getItem("productos")));
+fetch("./resources/json/productos.json")
+    .then((response) => response.json())
+    .then((productos) => mostrarProductos(productos))
+    .catch(error => console.error("Se ha producido un error al obtener productos.json."));
+
 mostrarCarrito();
-mostrarProductos(productosPromise);
