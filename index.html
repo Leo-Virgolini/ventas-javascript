@@ -31,12 +31,54 @@
                                     <h1 class="mb-0">VENTAS™</h1>
                                 </a>
                             </div>
+                            <!-- Navegador -->
+                            <div class="col-12 g-0">
+                                <nav class="navegador navbar navbar-expand-lg fw-bold">
+                                    <div class="container-fluid">
+                                        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+                                        <button class="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <div class="container-fluid">
+                                                <div class="row flex-wrap justify-content-center align-items-start align-content-center">
+                                                    <div class="col-4 g-0">
+                                                        <ul class="navbar-nav me-auto d-flex justify-content-end">
+                                                            <li class="nav-item mb-2 mb-xl-0 mx-1">
+                                                                <a id="carritoButton" href="#" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
+                                                                    <i class="fa-solid fa-cart-shopping hvr-icon me-2"></i>Carrito<span id="itemsCarrito"
+                                                                        class="badge rounded-pill text-bg-warning ms-1"></span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item mb-2 mb-xl-0 mx-1">
+                                                                <a href="pages/login.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
+                                                                    <i class="fa-solid fa-right-to-bracket hvr-icon me-2"></i>Login
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                            <!-- Buscador -->
+                            <div class="col-12 g-0">
+                                <form id="buscarFormulario" action="#" method="get" class="buscador py-2 px-2 d-flex justify-content-start align-items-center" role="search">
+                                    <input id="buscadorInput" class="form-control p-2 mx-1" type="search" aria-label="Search" name="buscar" placeholder="Ej: Ollas" required autofocus>
+                                    <button type="submit" class="btn btn-primary col-3 p-2 mx-1 d-flex justify-content-center align-items-center hvr-icon-grow">
+                                        <i class="fa-solid fa-magnifying-glass hvr-icon me-2"></i>Buscar
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </header>
             </div>
         </div>
-
+        <!-- Main -->
         <div class="row">
             <div class="col-12 g-0">
                 <main>
@@ -52,10 +94,25 @@
                                 </div>
                             </section>
                             <!-- Carrito -->
-                            <section>
+                            <section class="carrito">
                                 <div class="container-fluid">
                                     <h2 class="text-center">CARRITO</h2>
-                                    <div id="carrito" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-5">
+                                    <div class="table-responsive">
+                                        <table class="table table-light table-striped table-hover align-middle text-center w-50">
+                                            <thead class="table-dark text-center">
+                                                <tr>
+                                                    <th scope="col">Artículo</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">Precio</th>
+                                                    <th scope="col">Subtotal</th>
+                                                    <th scope="col">Quitar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="carrito">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="total">
                                     </div>
                                 </div>
                             </section>
@@ -67,8 +124,8 @@
 
     </div>
 
-    <button id="ver" class="btn btn-primary">Ver carrito</button>
-    <button id="vaciar" class="btn btn-primary">Vaciar carrito</button>
+    <button id="verButton" class="btn btn-primary">Ver carrito</button>
+    <button id="vaciarButton" class="btn btn-primary">Vaciar carrito</button>
 
     <script src="resources/js/bootstrap.bundle.min.js"></script>
     <script src="resources/js/sweetalert2.all.min.js"></script>

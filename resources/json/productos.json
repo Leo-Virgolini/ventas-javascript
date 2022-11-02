@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1,
+        "nombre": "Panera",
+        "precio": 1000,
+        "stock": 30,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 2,
+        "nombre": "Jarra",
+        "precio": 300,
+        "stock": 100,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 3,
+        "nombre": "Batidora",
+        "precio": 500,
+        "stock": 200,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 4,
+        "nombre": "Taza de Café",
+        "precio": 600,
+        "stock": 80,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 5,
+        "nombre": "Taza de Café",
+        "precio": 900,
+        "stock": 50,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 6,
+        "nombre": "Tupper",
+        "precio": 700,
+        "stock": 60,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 7,
+        "nombre": "Plato",
+        "precio": 350,
+        "stock": 70,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 8,
+        "nombre": "Cafetera",
+        "precio": 800,
+        "stock": 60,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 9,
+        "nombre": "Termo plástico",
+        "precio": 1100,
+        "stock": 40,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 10,
+        "nombre": "Termo",
+        "precio": 1500,
+        "stock": 50,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 11,
+        "nombre": "Coctelería",
+        "precio": 2000,
+        "stock": 55,
+        "imagen": "./resources/images/productos/1.png"
+    },
+    {
+        "id": 12,
+        "nombre": "Ollas",
+        "precio": 3000,
+        "stock": 70,
+        "imagen": "./resources/images/productos/1.png"
+    }
+]
