@@ -1,86 +1,86 @@
 [
     {
         "id": 1,
-        "nombre": "Panera",
-        "precio": 1000,
-        "stock": 30,
-        "imagen": "./resources/images/productos/1.png"
-    },
-    {
-        "id": 2,
-        "nombre": "Jarra",
-        "precio": 300,
+        "nombre": "Panera Redonda de Mimbre Chica",
+        "precio": 490,
         "stock": 100,
         "imagen": "./resources/images/productos/1.png"
     },
     {
+        "id": 2,
+        "nombre": "Jarra de Vidrio Templado Luminarc Tivoli 2,3 L",
+        "precio": 2984,
+        "stock": 100,
+        "imagen": "./resources/images/productos/2.png"
+    },
+    {
         "id": 3,
-        "nombre": "Batidora",
-        "precio": 500,
+        "nombre": "Batidor Semiautomático Acero Inoxidable 29 cm",
+        "precio": 830,
         "stock": 200,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/3.png"
     },
     {
         "id": 4,
-        "nombre": "Taza de Café",
-        "precio": 600,
+        "nombre": "Taza Café Transparente Doble Vidrio 250 ml Pack x2",
+        "precio": 4280,
         "stock": 80,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/4.png"
     },
     {
         "id": 5,
-        "nombre": "Taza de Café",
-        "precio": 900,
+        "nombre": "Taza Café Transparente Doble Vidrio Kremer 100 ml Pack x2",
+        "precio": 2567,
         "stock": 50,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/5.png"
     },
     {
         "id": 6,
-        "nombre": "Tupper",
-        "precio": 700,
+        "nombre": "Recipiente Hermético Rectangular San Remo Flor 430",
+        "precio": 749,
         "stock": 60,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/6.png"
     },
     {
         "id": 7,
-        "nombre": "Plato",
-        "precio": 350,
+        "nombre": "Plato Playo Redondo Durax Orquídea",
+        "precio": 202,
         "stock": 70,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/7.png"
     },
     {
         "id": 8,
-        "nombre": "Cafetera",
-        "precio": 800,
+        "nombre": "Cafetera con Embolo Hudson Estilo Francés 600 Ml",
+        "precio": 5181,
         "stock": 60,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/8.png"
     },
     {
         "id": 9,
-        "nombre": "Termo plástico",
-        "precio": 1100,
+        "nombre": "Mate Automático Mediano con Bombilla Plástico 500 cc",
+        "precio": 1232,
         "stock": 40,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/9.png"
     },
     {
         "id": 10,
-        "nombre": "Termo",
-        "precio": 1500,
+        "nombre": "Termo Bala Acero Inoxidable 1 Litro",
+        "precio": 5141,
         "stock": 50,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/10.png"
     },
     {
         "id": 11,
-        "nombre": "Coctelería",
-        "precio": 2000,
+        "nombre": "Set de Coctelería",
+        "precio": 12902,
         "stock": 55,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/11.png"
     },
     {
         "id": 12,
-        "nombre": "Ollas",
-        "precio": 3000,
+        "nombre": "Set Hudson Inducción Cerámica",
+        "precio": 53528,
         "stock": 70,
-        "imagen": "./resources/images/productos/1.png"
+        "imagen": "./resources/images/productos/12.png"
     }
 ]

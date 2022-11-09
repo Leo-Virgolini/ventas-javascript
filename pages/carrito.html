@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Checkout">
+    <meta name="keywords" content="carrito">
+    <link rel="icon" type="image/png" href="../resources/favicon/venta.png">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/styles.css">
+    <script src="https://kit.fontawesome.com/bda957b7e9.js" crossorigin="anonymous"></script>
+    <title>Ventas™-Carrito</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12 g-0">
+                <header>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 g-0 mb-1">
+                                <!-- Logo -->
+                                <a href="../index.html" class="logo bg-gradient d-flex justify-content-center align-items-center w-100">
+                                    <img src="../resources/images/iconos/logo4.png" alt="Logo">
+                                    <h1 class="mb-0">VENTAS™</h1>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row verde bg-gradient">
+                            <div class="col-12 g-0">
+                                <!-- Navegador -->
+                                <nav class="navegador navbar navbar-expand-lg fw-bold">
+                                    <div class="container-fluid">
+                                        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+                                        <button class="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <div class="container-fluid">
+                                                <div class="row flex-wrap justify-content-center align-items-start align-content-center">
+                                                    <div class="col-4 g-0">
+                                                        <ul class="navbar-nav me-auto d-flex justify-content-end">
+                                                            <li class="nav-item mb-2 mb-xl-0 mx-1" id="carrito">
+                                                                <a href="./carrito.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
+                                                                    <i class="fa-solid fa-cart-shopping hvr-icon me-2"></i>Carrito<span class="badge rounded-pill text-bg-warning ms-1">2</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item mb-2 mb-xl-0 mx-1">
+                                                                <a href="./login.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
+                                                                    <i class="fa-solid fa-right-to-bracket hvr-icon me-2"></i>Login
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                                <!-- Buscador -->
+                                <div class="col-12 g-0">
+                                    <form id="buscadorFormulario" action="#" method="get" class="buscador py-2 px-2 d-flex justify-content-start align-items-center" role="search">
+                                        <input id="buscadorInput" class="form-control p-2 mx-1" type="search" aria-label="Search" name="buscar" placeholder="Ej: Ollas" required autofocus>
+                                        <button type="submit" class="btn btn-primary col-3 p-2 mx-1 d-flex justify-content-center align-items-center hvr-icon-grow">
+                                            <i class="fa-solid fa-magnifying-glass hvr-icon me-2"></i>Buscar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <!-- Main -->
+        <div class="row">
+            <main class="col-12">
+                <section class="carrito mt-3">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">Carrito</h2>
+                                <div class="table-responsive">
+                                    <table class="table table-light table-striped table-hover align-middle text-center">
+                                        <thead class="table-dark text-center">
+                                            <tr>
+                                                <th scope="col">Artículo</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Subtotal</th>
+                                                <th scope="col">Quitar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableCarrito">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row g-5">
+                                    <div class="col-md-5 col-lg-4 order-md-last">
+                                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="text-primary">Tu carrito</span>
+                                            <span class="badge bg-primary rounded-pill">2</span>
+                                        </h4>
+                                        <ul id="carritoResumen" class="list-group mb-3">
+                                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                                <div class="text-success">
+                                                    <h6 class="my-0">Código promocional</h6>
+                                                    <small>PROMO</small>
+                                                </div>
+                                                <span class="text-success">−$1.000</span>
+                                            </li>
+                                        </ul>
+                                        <form class="card p-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Código promocional" required>
+                                                <button type="submit" class="btn btn-secondary">Agregar</button>
+                                            </div>
+                                        </form>
+
+                                        <p class="text-success">TOTAL: $58.496</p>
+                                    </div>
+
+                                    <div class="col-md-7 col-lg-8">
+                                        <h4 class="mb-3">Facturación</h4>
+                                        <form id="pagoFormulario" method="POST" action="./404.html">
+                                            <div class="row g-3">
+                                                <div class="col-sm-6">
+                                                    <label for="nombre" class="form-label">Nombre</label>
+                                                    <input type="text" class="form-control" id="nombre" placeholder="" value="" required="">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label for="apellido" class="form-label">Apellido</label>
+                                                    <input type="text" class="form-control" id="apellido" placeholder="" value="" required="">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="direccion" class="form-label">Dirección</label>
+                                                    <input type="text" class="form-control" id="direccion" placeholder="Calle 1234" required="">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="direccion2" class="form-label">Dirección 2<span class="text-muted">(Opcional)</span></label>
+                                                    <input type="text" class="form-control" id="direccion2" placeholder="Calle 1234">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="provincia" class="form-label">Provincia</label>
+                                                    <select class="form-select" id="provincia" required="">
+                                                        <option value="">Elije...</option>
+                                                        <option>Buenos Aires</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="localidad" class="form-label">Localidad</label>
+                                                    <select class="form-select" id="localidad" required="">
+                                                        <option value="">Elije...</option>
+                                                        <option>Florida</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="cp" class="form-label">Código postal</label>
+                                                    <input type="text" class="form-control" id="cp" placeholder="" required="">
+                                                </div>
+                                            </div>
+                                            <hr class="my-4">
+                                            <h4 class="mb-3">Método de pago</h4>
+                                            <div class="my-3">
+                                                <div class="form-check">
+                                                    <input id="credito" name="pago" type="radio" class="form-check-input" checked="" required="">
+                                                    <label class="form-check-label" for="credit">Tarjeta de crédito</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input id="debito" name="pago" type="radio" class="form-check-input" required="">
+                                                    <label class="form-check-label" for="debit">Tarjeta de débito</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input id="paypal" name="pago" type="radio" class="form-check-input" required="">
+                                                    <label class="form-check-label" for="paypal">MercadoPago</label>
+                                                </div>
+                                            </div>
+                                            <div class="row gy-3">
+                                                <div class="col-md-6">
+                                                    <label for="tarjeta-nombre" class="form-label">Nombre en la tarjeta</label>
+                                                    <input type="text" class="form-control" id="tarjeta-nombre" placeholder="" required="">
+                                                    <small class="text-muted">Nombre completo como figura en la tarjeta</small>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="tarjeta-numero" class="form-label">Número de tarjeta</label>
+                                                    <input type="text" class="form-control" id="tarjeta-numero" placeholder="" required="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="tarjeta-vencimiento" class="form-label">Fecha de vencimiento</label>
+                                                    <input type="text" class="form-control" id="tarjeta-vencimiento" placeholder="" required="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="tarjeta-cvv" class="form-label">CVV</label>
+                                                    <input type="text" class="form-control" id="tarjeta-cvv" placeholder="" required="">
+                                                </div>
+                                            </div>
+                                            <hr class="my-4">
+                                            <div class="col-12 mb-5">
+                                                <button type="submit" class="w-100 btn btn-lg btn-primary"><i class="fa-solid fa-credit-card me-2"></i>Generar pago</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <!-- Footer -->
+        <div class="row">
+            <div class="col-12 g-0">
+                <footer class="d-flex flex-column flex-wrap justify-content-center align-items-stretch align-content-space-between bg-gradient mt-auto">
+                    <div class="contacto mt-3">
+                        <div class="container-fluid">
+                            <div class="row justify-content-start align-items-center">
+                                <div class="col-sm-12 col-md-5 col-lg-4">
+                                    <iframe class="w-100"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15299.25245645202!2d-58.49360352369156!3d-34.53585964617376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb6cc77eb3961%3A0xee434cae937168d9!2sFlorida%2C%20Buenos%20Aires%20Province!5e0!3m2!1sen!2sar!4v1657232248923!5m2!1sen!2sar"
+                                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                                </div>
+                                <div class="col-sm-12 col-md-3 col-lg-3 gx-sm-4 gx-md-0 fw-bold">
+                                    <ul class="px-0 my-0">
+                                        <li><i class="fa-solid fa-location-dot me-1"></i></i>Calle Falsa 1234, Florida, Buenos Aires, Argentina</li>
+                                        <li><i class="fa-solid fa-phone me-1"></i><a href="tel://23923929210">+54 11 12345678</a></li>
+                                        <li><i class="fa-solid fa-envelope me-1"></i><a href="mailto:ventas@ventas.com">ventas@ventas.com</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-5">
+                                    <div class="iconos d-flex justify-content-center align-items-center">
+                                        <a href="https://web.whatsapp.com/" class="mx-2" target="_blank">
+                                            <img class="w-100 h-100" src="../resources/images/iconos/whatsapp.png" alt="Whatsapp" loading="lazy">
+                                        </a>
+                                        <a href="https://www.instagram.com/kitchentools.ig/" class="mx-2" target="_blank">
+                                            <img class="w-100 h-100" src="../resources/images/iconos/instagram.png" alt="Instagram" loading="lazy">
+                                        </a>
+                                        <a href="https://www.facebook.com/kitchentools.fb/" class="mx-2" target="_blank">
+                                            <img class="w-100 h-100" src="../resources/images/iconos/facebook.png" alt="Facebook" loading="lazy">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="derechos d-flex justify-content-start align-items-center">
+                                        <img src="../resources/images/iconos/ventas.png" alt="Logo" loading="lazy">
+                                        <p class="mb-0 fst-italic">
+                                            VENTAS Copyright © All rights reserved.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="resources/js/bootstrap.bundle.min.js"></script>
+    <script src="resources/js/sweetalert2.all.min.js"></script>
+    <script src="resources/js/script.js"></script>
+</body>
+
+</html>
