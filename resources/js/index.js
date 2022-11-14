@@ -80,6 +80,7 @@ class Carrito {
                     item.cantidad = cantidad;
                 }
                 sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                mostrarCarritoAlert();
                 actualizarCarrito();
                 Swal.fire({
                     title: "\'" + producto.nombre + "\' x" + cantidad + " cantidad modificada.",
@@ -310,8 +311,8 @@ function mostrarCarritoAlert() {
         }
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p>TOTAL=$${carrito.calcularTotal()}</p>
-        <p>TOTAL CON IVA=$${carrito.calcularTotalIva()}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal().toFixed(2)}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva().toFixed(2)}</p>
          `;
     } else {
         const total = document.getElementById("total");
