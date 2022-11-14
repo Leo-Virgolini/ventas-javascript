@@ -179,77 +179,8 @@ function mostrarProductos(productos) {
     } else {
         const resultados = document.getElementById("resultados");
         resultados.className = "fs-4 fw-bold fst-italic mt-5";
-        // resultados.className = "fs-3 fw-bold fst-italic";
-        // resultados.innerHTML = "No se encontraron resultados.";
     }
 }
-
-// function mostrarCarritoTable() {
-
-//     const tableBody = document.getElementById("tableCarrito");
-//     tableBody.replaceChildren();
-
-//     if (carrito?.items?.length > 0) {
-
-//         for (let item of carrito.items) {
-//             const row = document.createElement("tr");
-//             row.innerHTML = `
-//             <tr>
-//                 <td>
-//                     <img src="${item.producto.imagen}" class="img-fluid w-50" loading="lazy" alt="${item.producto.nombre}">
-//                     <p class="mb-0">${item.producto.nombre}</p>
-//                 </td>
-//                 <td><input id="cantidadCarrito${item.producto.id}" class="text-center" type="number" value="${item.cantidad}" min="1" max="${item.producto.stock}" step="1"></td>
-//                 <td>$${item.producto.precio}</td>
-//                 <td>$${item.producto.precio * item.cantidad}</td>
-//                 <td><button id="quitar${item.producto.id}" type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button></td>
-//             </tr>
-//             `;
-//             tableBody.appendChild(row);
-
-//             // Button para quitar producto del carrito
-//             const quitarButton = document.getElementById(`quitar${item.producto.id}`);
-//             quitarButton.addEventListener("click", () => {
-//                 Swal.fire({
-//                     title: "¿Quitar '" + item.producto.nombre + "'?",
-//                     icon: "question",
-//                     confirmButtonText: "Aceptar",
-//                     showCancelButton: true,
-//                     cancelButtonText: "Cancelar"
-//                 }).then((result) => {
-//                     if (result.isConfirmed) {
-//                         carrito.quitarItem(item.producto.id);
-//                         sessionStorage.setItem("carrito", JSON.stringify(carrito));
-//                         actualizarCarrito();
-//                         // mostrarCarritoTable();
-//                         Swal.fire({
-//                             title: "\'" + item.producto.nombre + '\' ha sido quitado del carrito.',
-//                             icon: "info",
-//                             position: 'center',
-//                             showConfirmButton: false,
-//                             timer: 1500
-//                         })
-//                     }
-//                 })
-//             });
-//             // Input para modificar cantidad 
-//             const cantidadCarritoInput = document.getElementById(`cantidadCarrito${item.producto.id}`);
-//             cantidadCarritoInput.addEventListener("change", () => {
-//                 carrito.agregarItem(item.producto.id, Number(cantidadCarritoInput.value));
-//             });
-//         }
-//         const total = document.getElementById("total");
-//         total.innerHTML = `
-//         <p>TOTAL=$${carrito.calcularTotal()}</p>
-//         <p>TOTAL CON IVA=$${carrito.calcularTotalIva()}</p>
-//          `;
-//     } else {
-//         const total = document.getElementById("total");
-//         total.innerHTML = `
-//         <p>El carrito está vacío.</p>
-//         `;
-//     }
-// }
 
 function mostrarCarritoAlert() {
 
@@ -369,12 +300,6 @@ carritoButton.onclick = () => {
     actualizarCarrito();
     mostrarCarritoAlert();
 };
-
-// const verCarritoButton = document.getElementById("verButton");
-// verCarritoButton.onclick = () => {
-//     actualizarCarrito();
-//     mostrarCarritoTable();
-// };
 
 const vaciarButton = document.getElementById("vaciarButton");
 vaciarButton.onclick = () => {
