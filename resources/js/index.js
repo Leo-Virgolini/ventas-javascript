@@ -80,8 +80,7 @@ class Carrito {
                     item.cantidad = cantidad;
                 }
                 sessionStorage.setItem("carrito", JSON.stringify(carrito));
-                mostrarCarritoAlert();
-                actualizarCarrito();
+                mostrarCarritoModal();
                 Swal.fire({
                     title: "\'" + producto.nombre + "\' x" + cantidad + " cantidad modificada.",
                     icon: 'success',
@@ -126,18 +125,18 @@ class Carrito {
 }
 
 // busca un producto por su id y lo devuelve, si no existe -> undefined
-function buscarProductoId(idProducto) {
-    if (isNaN(idProducto)) {
-        return undefined;
-    }
-    obtenerProductos((productos) => {
-        let producto = productos.find(producto => producto.id == idProducto);
-        if (!producto) {
-            return undefined;
-        } else
-            return producto;
-    });
-}
+// function buscarProductoId(idProducto) {
+//     if (isNaN(idProducto)) {
+//         return undefined;
+//     }
+//     obtenerProductos((productos) => {
+//         let producto = productos.find(producto => producto.id == idProducto);
+//         if (!producto) {
+//             return undefined;
+//         } else
+//             return producto;
+//     });
+// }
 
 function mostrarProductos(productos) {
     const div = document.getElementById("productos");
@@ -182,7 +181,7 @@ function mostrarProductos(productos) {
     }
 }
 
-function mostrarCarritoAlert() {
+function mostrarCarritoModal() {
 
     const tableBody = document.getElementById("tableCarrito");
     tableBody.replaceChildren();
@@ -222,7 +221,7 @@ function mostrarCarritoAlert() {
                         carrito.quitarItem(item.producto.id);
                         sessionStorage.setItem("carrito", JSON.stringify(carrito));
                         actualizarCarrito();
-                        mostrarCarritoAlert();
+                        mostrarCarritoModal();
                         Swal.fire({
                             title: "\'" + item.producto.nombre + '\' ha sido quitado del carrito.',
                             icon: "info",
@@ -233,7 +232,7 @@ function mostrarCarritoAlert() {
                     }
                 })
             });
-            // Input para modificar cantidad 
+            // Input para modificar cantidad
             const cantidadCarritoInput = document.getElementById(`cantidadCarrito${item.producto.id}`);
             const modificarCantidadButton = document.getElementById(`modificarCantidad${item.producto.id}`);
             modificarCantidadButton.addEventListener("click", () => {
@@ -295,11 +294,11 @@ buscadorFormulario.addEventListener("submit", (e) => {
     buscarProductos(buscadorInput.value);
 });
 
-const carritoButton = document.getElementById("carritoButton");
-carritoButton.onclick = () => {
-    actualizarCarrito();
-    mostrarCarritoAlert();
-};
+// const carritoButton = document.getElementById("carritoButton");
+// carritoButton.onclick = () => {
+//     actualizarCarrito();
+//     mostrarCarritoModal();
+// };
 
 const vaciarButton = document.getElementById("vaciarButton");
 vaciarButton.onclick = () => {
@@ -314,7 +313,7 @@ vaciarButton.onclick = () => {
             if (result.isConfirmed) {
                 carrito.vaciarCarrito();
                 sessionStorage.clear();
-                mostrarCarritoAlert();
+                mostrarCarritoModal();
                 actualizarCarrito();
                 Swal.fire({
                     title: "Carrito vaciado.",
@@ -333,28 +332,19 @@ obtenerProductos(mostrarProductos);
 const carrito = new Carrito();
 actualizarCarrito();
 
-
-// Get the modal
+// Modal del Carrito
 const modal = document.getElementById("carritoModal");
-
-// Get the button that opens the modal
-const btn = document.getElementById("carritoButton");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-btn.onclick = function () {
+// Abrir
+const carritoButton = document.getElementById("carritoButton");
+carritoButton.onclick = function () {
     modal.style.display = "block";
-    mostrarCarritoAlert();
+    mostrarCarritoModal();
 }
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
+// Cerrar
+const closeButton = document.getElementById("close");
+closeButton.onclick = function () {
     modal.style.display = "none";
 }
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
