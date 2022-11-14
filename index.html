@@ -49,11 +49,6 @@
                                                                         class="badge rounded-pill text-bg-warning ms-1"></span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item mb-2 mb-xl-0 mx-1">
-                                                                <a href="pages/login.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
-                                                                    <i class="fa-solid fa-right-to-bracket hvr-icon me-2"></i>Login
-                                                                </a>
-                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -65,7 +60,7 @@
                             <!-- Buscador -->
                             <div class="col-12 g-0">
                                 <form id="buscadorFormulario" action="#" method="get" class="buscador py-2 px-2 d-flex justify-content-start align-items-center" role="search">
-                                    <input id="buscadorInput" class="form-control p-2 mx-1" type="search" aria-label="Search" name="buscar" placeholder="Ej: Ollas" required autofocus>
+                                    <input id="buscadorInput" class="form-control p-2 mx-1" type="search" aria-label="Search" name="buscar" placeholder="Ej: Ollas" autofocus>
                                     <button type="submit" class="btn btn-primary col-3 p-2 mx-1 d-flex justify-content-center align-items-center hvr-icon-grow">
                                         <i class="fa-solid fa-magnifying-glass hvr-icon me-2"></i>Buscar
                                     </button>
@@ -82,6 +77,34 @@
                 <main>
                     <div class="row">
                         <div class="col-12">
+                            <section>
+                                <!-- The Modal -->
+                                <div id="carritoModal" class="modal">
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                        <div class="container-fluid">
+                                            <span class="close">&times;</span>
+                                            <button id="vaciarButton" class="btn btn-danger">Vaciar carrito<i class="fa-solid fa-trash-can-xmark"></i></button>
+                                            <div class="table-responsive">
+                                                <table class="table table-light table-striped table-hover align-middle text-center">
+                                                    <thead class="table-dark text-center">
+                                                        <tr>
+                                                            <th scope="col">Artículo</th>
+                                                            <th scope="col">Cantidad</th>
+                                                            <th scope="col">Precio</th>
+                                                            <th scope="col">Subtotal</th>
+                                                            <th scope="col">Quitar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tableCarrito">
+                                                    </tbody>
+                                                </table>
+                                                <div id="total"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <!-- Productos -->
                             <section class="productos pt-3 pb-4">
                                 <div class="container-fluid">
@@ -89,28 +112,8 @@
                                     <div id="productos" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-5">
                                         <!-- Cards -->
                                     </div>
-                                </div>
-                            </section>
-                            <!-- Carrito -->
-                            <section class="carrito">
-                                <div class="container-fluid">
-                                    <h2 class="text-center">CARRITO</h2>
-                                    <div class="table-responsive">
-                                        <table class="table table-light table-striped table-hover align-middle text-center w-50">
-                                            <thead class="table-dark text-center">
-                                                <tr>
-                                                    <th scope="col">Artículo</th>
-                                                    <th scope="col">Cantidad</th>
-                                                    <th scope="col">Precio</th>
-                                                    <th scope="col">Subtotal</th>
-                                                    <th scope="col">Quitar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tableCarrito">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div id="total">
+                                    <div id="resultados" class="d-none">
+                                        No se encontraron resultados.
                                     </div>
                                 </div>
                             </section>
@@ -122,12 +125,9 @@
 
     </div>
 
-    <button id="verButton" class="btn btn-primary">Ver carrito</button>
-    <button id="vaciarButton" class="btn btn-primary">Vaciar carrito</button>
-
     <script src="resources/js/bootstrap.bundle.min.js"></script>
     <script src="resources/js/sweetalert2.all.min.js"></script>
-    <script src="resources/js/script.js"></script>
+    <script src="resources/js/index.js"></script>
 </body>
 
 </html>

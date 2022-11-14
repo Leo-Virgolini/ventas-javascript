@@ -35,7 +35,6 @@
                                 <!-- Navegador -->
                                 <nav class="navegador navbar navbar-expand-lg fw-bold">
                                     <div class="container-fluid">
-                                        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
                                         <button class="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                             aria-expanded="false" aria-label="Toggle navigation">
                                             <span class="navbar-toggler-icon"></span>
@@ -46,13 +45,9 @@
                                                     <div class="col-4 g-0">
                                                         <ul class="navbar-nav me-auto d-flex justify-content-end">
                                                             <li class="nav-item mb-2 mb-xl-0 mx-1" id="carrito">
-                                                                <a href="./carrito.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
-                                                                    <i class="fa-solid fa-cart-shopping hvr-icon me-2"></i>Carrito<span class="badge rounded-pill text-bg-warning ms-1">2</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item mb-2 mb-xl-0 mx-1">
-                                                                <a href="./login.html" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
-                                                                    <i class="fa-solid fa-right-to-bracket hvr-icon me-2"></i>Login
+                                                                <a id="carritoButton" href="#" class="nav-link hvr-icon-grow d-flex justify-content-center align-items-center">
+                                                                    <i class="fa-solid fa-cart-shopping hvr-icon me-2"></i>Carrito<span id="itemsCarrito"
+                                                                        class="badge rounded-pill text-bg-warning ms-1"></span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -62,15 +57,6 @@
                                         </div>
                                     </div>
                                 </nav>
-                                <!-- Buscador -->
-                                <div class="col-12 g-0">
-                                    <form id="buscadorFormulario" action="#" method="get" class="buscador py-2 px-2 d-flex justify-content-start align-items-center" role="search">
-                                        <input id="buscadorInput" class="form-control p-2 mx-1" type="search" aria-label="Search" name="buscar" placeholder="Ej: Ollas" required autofocus>
-                                        <button type="submit" class="btn btn-primary col-3 p-2 mx-1 d-flex justify-content-center align-items-center hvr-icon-grow">
-                                            <i class="fa-solid fa-magnifying-glass hvr-icon me-2"></i>Buscar
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -265,7 +251,7 @@
     </div>
     <script src="resources/js/bootstrap.bundle.min.js"></script>
     <script src="resources/js/sweetalert2.all.min.js"></script>
-    <script src="resources/js/script.js"></script>
+    <script src="resources/js/carrito.js"></script>
 </body>
 
 </html>
