@@ -121,7 +121,6 @@ function generarPago() {
     })
 }
 
-
 const pagoFormulario = document.getElementById("pagoFormulario");
 pagoFormulario.addEventListener("submit", (e) => {
     e.preventDefault();

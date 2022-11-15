@@ -27,39 +27,51 @@ class Carrito {
     // agrega Item(Producto, cantidad) al array "items" del Carrito
     agregarItem(idProducto, cantidad) {
         obtenerProductos((productos) => {
-            let producto = productos.find(producto => producto.id == idProducto);
+            const producto = productos.find(producto => producto.id == idProducto);
             if (!producto) {
                 Swal.fire({
                     title: 'El producto no existe.',
                     icon: "error"
                 });
             } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
-                let item = this.items.find(item => item.producto.id == producto.id);
+                const item = this.items.find(item => item.producto.id == producto.id);
                 if (item) {
-                    if (item.cantidad + cantidad > producto.stock) {
-                        item.cantidad = producto.stock;
+                    if (item.cantidad + cantidad > producto.stock) { // si agrego mas cantidad que el stock
+                        // item.cantidad = producto.stock;
                         Swal.fire({
-                            title: "Agregado el stock máximo: " + producto.stock,
-                            icon: "info"
+                            title: `Tienes ${item.cantidad} en el carrito y el stock máximo es ${producto.stock}.`,
+                            icon: 'error',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 1500
                         });
                     } else {
                         item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
+                        sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                        actualizarCarrito();
+                        Swal.fire({
+                            title: "\'" + producto.nombre + "\' x" + cantidad + " sumado al carrito.",
+                            icon: 'success',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     }
                 } else {
-                    this.items.push(new Item(producto, cantidad)); // sino lo agrego
+                    this.items.push(new Item(producto, cantidad)); // si no existe lo agrego
+                    sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                    actualizarCarrito();
+                    Swal.fire({
+                        title: "\'" + producto.nombre + "\' x" + cantidad + " agregado al carrito.",
+                        icon: 'success',
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
-                sessionStorage.setItem("carrito", JSON.stringify(carrito));
-                actualizarCarrito();
-                Swal.fire({
-                    title: "\'" + producto.nombre + "\' x" + cantidad + " agregado al carrito.",
-                    icon: 'success',
-                    position: 'center',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
             } else {
                 Swal.fire({
-                    title: 'No hay más stock.',
+                    title: `El stock máximo es: ${producto.stock}.`,
                     icon: "error"
                 });
             }
@@ -68,14 +80,14 @@ class Carrito {
 
     modificarCantidad(idProducto, cantidad) {
         obtenerProductos((productos) => {
-            let producto = productos.find(producto => producto.id == idProducto);
+            const producto = productos.find(producto => producto.id == idProducto);
             if (!producto) {
                 Swal.fire({
                     title: 'El producto no existe.',
                     icon: "error"
                 });
             } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
-                let item = this.items.find(item => item.producto.id == producto.id);
+                const item = this.items.find(item => item.producto.id == producto.id);
                 if (item) {
                     item.cantidad = cantidad;
                 }
@@ -90,7 +102,7 @@ class Carrito {
                 });
             } else {
                 Swal.fire({
-                    title: 'No hay más stock.',
+                    title: `El stock máximo es: ${producto.stock}.`,
                     icon: "error"
                 });
             }
@@ -98,9 +110,7 @@ class Carrito {
     }
 
     quitarItem(idProducto) {
-        const index = this.items.findIndex(item => {
-            return item.producto.id === idProducto;
-        });
+        const index = this.items.findIndex(item => item.producto.id === idProducto);
         if (index > -1) {
             this.items.splice(index, 1);
         } else {
@@ -141,8 +151,8 @@ class Carrito {
 function mostrarProductos(productos) {
     const div = document.getElementById("productos");
     div.replaceChildren();
-    console.log(productos);
     if (productos?.length > 0) {
+        console.log(productos);
         for (let producto of productos) {
             const card = document.createElement("div");
             card.innerHTML = `
@@ -241,9 +251,17 @@ function mostrarCarritoModal() {
         }
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal().toFixed(2)}</p>
-        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva().toFixed(2)}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal().toFixed(1)}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva().toFixed(1)}</p>
+        <div>
+            <button id="pagoButton" type="submit" class="w-50 btn btn-lg btn-primary"><i class="fa-solid fa-money-check me-1"></i>Generar pago</button>
+        </div>
          `;
+
+        const pagoButton = document.getElementById("pagoButton");
+        pagoButton.addEventListener("submit", (e) => {
+            window.location.href = "./pages/carrito.html";
+        });
     } else {
         const total = document.getElementById("total");
         total.innerHTML = `
@@ -286,7 +304,6 @@ function buscarProductos(nombreProducto) {
     });
 }
 
-
 const buscadorInput = document.getElementById("buscadorInput");
 const buscadorFormulario = document.getElementById("buscadorFormulario");
 buscadorFormulario.addEventListener("submit", (e) => {
@@ -299,6 +316,25 @@ buscadorFormulario.addEventListener("submit", (e) => {
 //     actualizarCarrito();
 //     mostrarCarritoModal();
 // };
+
+// Modal del Carrito
+const modal = document.getElementById("carritoModal");
+// Abrir
+const carritoButton = document.getElementById("carritoButton");
+carritoButton.onclick = function () {
+    modal.style.display = "block";
+    mostrarCarritoModal();
+}
+// Cerrar
+const closeButton = document.getElementById("close");
+closeButton.onclick = function () {
+    modal.style.display = "none";
+}
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 const vaciarButton = document.getElementById("vaciarButton");
 vaciarButton.onclick = () => {
@@ -331,22 +367,3 @@ obtenerProductos(mostrarProductos);
 // Carrito en SessionStorage
 const carrito = new Carrito();
 actualizarCarrito();
-
-// Modal del Carrito
-const modal = document.getElementById("carritoModal");
-// Abrir
-const carritoButton = document.getElementById("carritoButton");
-carritoButton.onclick = function () {
-    modal.style.display = "block";
-    mostrarCarritoModal();
-}
-// Cerrar
-const closeButton = document.getElementById("close");
-closeButton.onclick = function () {
-    modal.style.display = "none";
-}
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
