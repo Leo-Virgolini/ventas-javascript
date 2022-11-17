@@ -18,7 +18,7 @@
         "nombre": "Batidor Semiautomático Acero Inoxidable 29 cm",
         "precio": 830,
         "stock": 200,
-        "imagen": "./resources/images/productos/3.png"
+        "imagen": "resources/images/productos/3.png"
     },
     {
         "id": 4,

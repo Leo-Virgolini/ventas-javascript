@@ -58,7 +58,7 @@ class Carrito {
                         });
                     }
                 } else {
-                    this.items.push(new Item(producto, cantidad)); // si no existe lo agrego
+                    this.items.push(new Item(producto, cantidad)); // si no existe creo el Item
                     sessionStorage.setItem("carrito", JSON.stringify(carrito));
                     actualizarCarrito();
                     Swal.fire({
@@ -72,7 +72,10 @@ class Carrito {
             } else {
                 Swal.fire({
                     title: `El stock máximo es: ${producto.stock}.`,
-                    icon: "error"
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             }
         });
@@ -103,7 +106,10 @@ class Carrito {
             } else {
                 Swal.fire({
                     title: `El stock máximo es: ${producto.stock}.`,
-                    icon: "error"
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             }
         });
@@ -251,15 +257,15 @@ function mostrarCarritoModal() {
         }
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal().toFixed(1)}</p>
-        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva().toFixed(1)}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal()}</p>
+        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva()}</p>
         <div>
-            <button id="pagoButton" type="submit" class="w-50 btn btn-lg btn-primary"><i class="fa-solid fa-money-check me-1"></i>Generar pago</button>
+            <button id="pagoButton" type="submit" class="w-50 btn btn-lg btn-primary"><i class="fa-solid fa-money-check-dollar me-1"></i>Generar pago</button>
         </div>
          `;
 
         const pagoButton = document.getElementById("pagoButton");
-        pagoButton.addEventListener("submit", (e) => {
+        pagoButton.addEventListener("click", (e) => {
             window.location.href = "./pages/carrito.html";
         });
     } else {

@@ -1,3 +1,121 @@
+class Carrito {
+    constructor() {
+        this.items = [];
+    }
+
+    // agrega Item(Producto, cantidad) al array "items" del Carrito
+    agregarItem(idProducto, cantidad) {
+        obtenerProductos((productos) => {
+            const producto = productos.find(producto => producto.id == idProducto);
+            if (!producto) {
+                Swal.fire({
+                    title: 'El producto no existe.',
+                    icon: "error"
+                });
+            } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
+                const item = this.items.find(item => item.producto.id == producto.id);
+                if (item) {
+                    if (item.cantidad + cantidad > producto.stock) { // si agrego mas cantidad que el stock
+                        // item.cantidad = producto.stock;
+                        Swal.fire({
+                            title: `Tienes ${item.cantidad} en el carrito y el stock máximo es ${producto.stock}.`,
+                            icon: 'error',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        item.cantidad += cantidad; // si el Producto ya existe en el carrito le sumo la cantidad
+                        sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                        actualizarCarrito();
+                        Swal.fire({
+                            title: "\'" + producto.nombre + "\' x" + cantidad + " sumado al carrito.",
+                            icon: 'success',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                } else {
+                    this.items.push(new Item(producto, cantidad)); // si no existe creo el Item
+                    sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                    actualizarCarrito();
+                    Swal.fire({
+                        title: "\'" + producto.nombre + "\' x" + cantidad + " agregado al carrito.",
+                        icon: 'success',
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    title: `El stock máximo es: ${producto.stock}.`,
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    modificarCantidad(idProducto, cantidad) {
+        obtenerProductos((productos) => {
+            const producto = productos.find(producto => producto.id == idProducto);
+            if (!producto) {
+                Swal.fire({
+                    title: 'El producto no existe.',
+                    icon: "error"
+                });
+            } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
+                const item = this.items.find(item => item.producto.id == producto.id);
+                if (item) {
+                    item.cantidad = cantidad;
+                }
+                sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                mostrarCarritoModal();
+                Swal.fire({
+                    title: "\'" + producto.nombre + "\' x" + cantidad + " cantidad modificada.",
+                    icon: 'success',
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    title: `El stock máximo es: ${producto.stock}.`,
+                    icon: "error"
+                });
+            }
+        });
+    }
+
+    quitarItem(idProducto) {
+        const index = this.items.findIndex(item => item.producto.id === idProducto);
+        if (index > -1) {
+            this.items.splice(index, 1);
+        } else {
+            Swal.fire({
+                title: 'El producto no existe.',
+                icon: "error"
+            });
+        }
+    }
+
+    calcularTotal() {
+        return this.items.reduce((acumulador, item) => acumulador + (item.producto.precio * item.cantidad), 0).toFixed(1);
+    }
+
+    calcularTotalIva() {
+        return (this.calcularTotal() * 1.21).toFixed(1);
+    }
+
+    vaciarCarrito() {
+        this.items = [];
+    }
+}
+
 function mostrarCarritoTable() {
 
     const tableBody = document.getElementById("tableCarrito");
@@ -80,8 +198,8 @@ function mostrarCarritoResumen() {
             `;
             ul.appendChild(li);
         }
-        const total = document.createElement("li");
-        total.innerHTML = `
+        const totalLi = document.createElement("li");
+        totalLi.innerHTML = `
         <li class="list-group-item d-flex justify-content-between">
             <span>Total ($)</span>
             <strong>$${carrito.calcularTotal()}</strong>
@@ -89,12 +207,31 @@ function mostrarCarritoResumen() {
             <strong>$${carrito.calcularTotalIva()}</strong>
         </li>
         `;
+        ul.appendChild(totalLi);
+
+        const total = document.getElementById("total");
+        total.innerHTML = `
+        <p class="text-success d-flex flex-column">
+            <span>Total <strong>$${carrito.calcularTotal()}</strong></span>
+            <span>Total IVA <strong>$${carrito.calcularTotalIva()}</strong></span>
+        </p>
+        `;
     } else {
         const total = document.getElementById("total");
         total.innerHTML = `
         <p>El carrito está vacío.</p>
         `;
     }
+}
+
+function actualizarCarrito() {
+    const sessionCarrito = JSON.parse(sessionStorage.getItem("carrito"));
+    if (sessionCarrito != null)
+        carrito.items = sessionCarrito.items;
+    console.log(carrito);
+
+    const span = document.getElementById("itemsCarrito");
+    span.innerHTML = carrito?.items?.length;
 }
 
 function generarPago() {
@@ -127,7 +264,9 @@ pagoFormulario.addEventListener("submit", (e) => {
     generarPago();
 });
 
-
+// Carrito en SessionStorage
+const carrito = new Carrito();
+actualizarCarrito();
 // Carrito.html
 mostrarCarritoTable();
 mostrarCarritoResumen();
