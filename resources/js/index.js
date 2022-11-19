@@ -128,11 +128,11 @@ class Carrito {
     }
 
     calcularTotal() {
-        return this.items.reduce((acumulador, item) => acumulador + (item.producto.precio * item.cantidad), 0);
+        return this.items.reduce((acumulador, item) => acumulador + (item.producto.precio * item.cantidad), 0).toFixed(1);
     }
 
     calcularTotalIva() {
-        return this.calcularTotal() * 1.21;
+        return (this.calcularTotal() * 1.21).toFixed(1);
     }
 
     vaciarCarrito() {
@@ -159,6 +159,8 @@ function mostrarProductos(productos) {
     div.replaceChildren();
     if (productos?.length > 0) {
         console.log(productos);
+        const resultados = document.getElementById("resultados");
+        resultados.className = "d-none";
         for (let producto of productos) {
             const card = document.createElement("div");
             card.innerHTML = `
@@ -193,6 +195,7 @@ function mostrarProductos(productos) {
         }
     } else {
         const resultados = document.getElementById("resultados");
+        resultados.innerText = "No se encontraron resultados para '" + buscadorInput.value + "'.";
         resultados.className = "fs-4 fw-bold fst-italic mt-5";
     }
 }
@@ -257,10 +260,12 @@ function mostrarCarritoModal() {
         }
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal()}</p>
-        <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva()}</p>
-        <div>
-            <button id="pagoButton" type="submit" class="w-50 btn btn-lg btn-primary"><i class="fa-solid fa-money-check-dollar me-1"></i>Generar pago</button>
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <p class="fs-3 fw-bold text-success">TOTAL=$${carrito.calcularTotal()}</p>
+            <p class="fs-3 fw-bold text-success">TOTAL CON IVA=$${carrito.calcularTotalIva()}</p>
+            <div>
+                <button id="pagoButton" type="submit" class="w-100 btn btn-lg btn-primary"><i class="fa-solid fa-money-check-dollar me-1"></i>Generar pago</button>
+            </div>
         </div>
          `;
 
@@ -278,7 +283,7 @@ function mostrarCarritoModal() {
 
 function actualizarCarrito() {
     const sessionCarrito = JSON.parse(sessionStorage.getItem("carrito"));
-    if (sessionCarrito != null)
+    if (sessionCarrito)
         carrito.items = sessionCarrito.items;
     console.log(carrito);
 
@@ -369,7 +374,7 @@ vaciarButton.onclick = () => {
     }
 };
 
+// Ejecución
 obtenerProductos(mostrarProductos);
-// Carrito en SessionStorage
 const carrito = new Carrito();
 actualizarCarrito();

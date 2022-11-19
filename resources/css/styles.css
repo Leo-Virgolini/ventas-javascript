@@ -228,116 +228,6 @@ body {
   background: linear-gradient(180deg, #6475c3 0%, #64c3b3 100%);
 }
 
-body main .banner {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-}
-
-body main .banner video {
-  position: absolute;
-  object-fit: cover;
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  height: 100%;
-  min-height: 100%;
-  max-height: 100%;
-  z-index: 0;
-}
-
-body main .banner .overlay {
-  position: absolute;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.4);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.925) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.925) 100%);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 100%;
-}
-
-body main .banner .overlay h2 {
-  font-family: "Alfa Slab One", cursive;
-  font-size: 7rem;
-  color: #6475c3;
-  color: white;
-  font-family: "Lato", sans-serif;
-  text-align: center;
-  font-size: 6rem;
-  margin-top: 10%;
-  letter-spacing: 1.8vw;
-  line-height: 1.2;
-}
-
-body main .banner .overlay h3 {
-  color: #e0e0e0;
-  font-family: "Lato", sans-serif;
-  font-weight: bold;
-  font-size: 3rem;
-  margin-top: 20%;
-  margin-left: 5%;
-}
-
-body main .banner .overlay h4 {
-  color: #e0e0e0;
-  font-family: "Lato", sans-serif;
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-left: 5%;
-}
-
-body main .ofertas h2 {
-  font-family: "Alfa Slab One", cursive;
-  font-size: 5rem;
-  word-wrap: break-word;
-  -webkit-text-stroke: 1px black;
-  animation: color-change-2x 2s linear infinite alternate both;
-}
-
-body main .ofertas .carousel .carousel-item img {
-  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.16), 0 4px 6px rgba(0, 0, 0, 0.45);
-  border-radius: 10px;
-  object-fit: cover;
-  max-height: 600px;
-  min-height: 300px;
-  animation: fade-in 2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-body main .categorias .cardCategoria a {
-  font-family: "Alfa Slab One", cursive;
-  font-size: 1.8rem;
-  color: #6475c3;
-  color: whitesmoke;
-  text-decoration: none;
-}
-
-body main .categorias .cardCategoria img {
-  object-fit: cover;
-  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.16), 0 4px 6px rgba(0, 0, 0, 0.45);
-  border-radius: 10px;
-  height: 500px;
-  width: 400px;
-  transform: perspective(1px) translateZ(0);
-  transition-duration: 0.3s;
-  transition-property: box-shadow, transform;
-}
-
-body main .categorias .cardCategoria img:hover,
-body main .categorias .cardCategoria img:focus,
-body main .categorias .cardCategoria img:active {
-  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.16), 0 4px 6px rgba(0, 0, 0, 0.45);
-  transform: scale(1.1);
-}
-
-body main .categorias .cardCategoria hr {
-  height: 3px;
-  border-width: 0;
-  background-color: #494949;
-}
-
 body main .productos h2 {
   font-family: "Alfa Slab One", cursive;
   font-size: 5rem;
@@ -449,34 +339,6 @@ body main .carrito button {
   font-size: 3.5rem;
 }
 
-body main .login {
-  font-family: "Alfa Slab One", cursive;
-}
-
-body main .login h2 {
-  font-family: "Alfa Slab One", cursive;
-  font-size: 5rem;
-  word-wrap: break-word;
-  -webkit-text-stroke: 1px black;
-  animation: bounce-top 0.9s both, color-change-2x 2s linear infinite alternate both;
-}
-
-body main .registro {
-  font-family: "Alfa Slab One", cursive;
-}
-
-body main .registro h2 {
-  font-family: "Alfa Slab One", cursive;
-  font-size: 5rem;
-  word-wrap: break-word;
-  -webkit-text-stroke: 1px black;
-  animation: bounce-top 0.9s both, color-change-2x 2s linear infinite alternate both;
-}
-
-body main .registro input {
-  background-color: #d7d8cf;
-}
-
 footer {
   background-color: #6475c3;
   font-size: 1rem;
@@ -524,10 +386,38 @@ footer .contacto .derechos p {
   color: #1c1c1c;
 }
 
-@media screen and (min-width: 992px) and (max-width: 1195px) {
-  body main .categorias .cardCategoria p {
-    font-size: 1.4rem;
-  }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 650px) {
@@ -548,26 +438,8 @@ footer .contacto .derechos p {
     font-size: 1.5rem;
   }
 
-  body main .ofertas h2 {
-    font-size: 4rem;
-  }
-
   body main .productos h2 {
     font-size: 4rem;
-  }
-}
-
-@media screen and (max-width: 605px) {
-  body main .banner .overlay h2 {
-    font-size: 5rem;
-  }
-
-  body main .banner .overlay h3 {
-    font-size: 2.5rem;
-  }
-
-  body main .banner .overlay h4 {
-    font-size: 1.5rem;
   }
 }
 
@@ -582,23 +454,6 @@ footer .contacto .derechos p {
 
   body header .verde .navegador .dropdown-menu.show {
     font-size: 1.3rem;
-  }
-
-  body main .banner .overlay h2 {
-    font-size: 4rem;
-    margin-top: 50%;
-  }
-
-  body main .banner .overlay h3 {
-    font-size: 1.5rem;
-  }
-
-  body main .banner .overlay h4 {
-    font-size: 1.2rem;
-  }
-
-  body main .ofertas h2 {
-    font-size: 3.5rem;
   }
 
   body main .productos h2 {
@@ -636,10 +491,6 @@ footer .contacto .derechos p {
     font-size: 1rem;
   }
 
-  body main .ofertas h2 {
-    font-size: 3rem;
-  }
-
   body main .productos h2 {
     font-size: 3rem;
   }
@@ -664,22 +515,6 @@ footer .contacto .derechos p {
 
   body header .verde .buscador button {
     font-size: 1rem;
-  }
-
-  body main .banner .overlay h2 {
-    font-size: 3.5rem;
-  }
-
-  body main .banner .overlay h3 {
-    font-size: 1.5rem;
-  }
-
-  body main .banner .overlay h4 {
-    font-size: 1.2rem;
-  }
-
-  body main .ofertas h2 {
-    font-size: 2.6rem;
   }
 
   body main .productos h2 {
@@ -708,22 +543,6 @@ footer .contacto .derechos p {
     font-size: 0.9rem;
   }
 
-  body main .banner .overlay h2 {
-    font-size: 3rem;
-  }
-
-  body main .banner .overlay h3 {
-    font-size: 1.5rem;
-  }
-
-  body main .banner .overlay h4 {
-    font-size: 1.2rem;
-  }
-
-  body main .ofertas h2 {
-    font-size: 2rem;
-  }
-
   body main .productos h2 {
     font-size: 2rem;
   }
@@ -744,10 +563,6 @@ footer .contacto .derechos p {
 
   body header .verde .buscador button {
     font-size: 0.7rem;
-  }
-
-  body main .categorias .cardCategoria p {
-    font-size: 1.5rem;
   }
 }
 
@@ -777,46 +592,8 @@ footer .contacto .derechos p {
     font-size: 0.5rem;
   }
 
-  body main .banner .overlay h2 {
-    font-size: 2.5rem;
-  }
-
-  body main .banner .overlay h3 {
-    font-size: 1.2rem;
-  }
-
-  body main .banner .overlay h4 {
-    font-size: 1rem;
-  }
-
-  body main .ofertas h2 {
-    font-size: 1.5rem;
-  }
-
-  body main .categorias .cardCategoria p {
-    font-size: 1.1rem;
-  }
-
   body main .productos h2 {
     font-size: 1.5rem;
-  }
-}
-
-@media screen and (min-width: 1201px) {
-  body main .login .input-group {
-    width: 30%;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  body main .login .input-group {
-    width: 75%;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  body main .login .input-group {
-    width: 100%;
   }
 }
 
@@ -837,24 +614,6 @@ footer .contacto .derechos p {
 
   body main .contacto h3 {
     font-size: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  body main .registro h2 {
-    font-size: 4rem;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  body main .registro h2 {
-    font-size: 3rem;
-  }
-}
-
-@media screen and (max-width: 350px) {
-  body main .registro h2 {
-    font-size: 2.2rem;
   }
 }
 
@@ -932,38 +691,4 @@ footer .contacto .derechos p {
   body main .carrito button {
     font-size: 1.5rem;
   }
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
 }
