@@ -205,9 +205,8 @@ pagoFormulario.addEventListener("submit", (e) => {
     generarPago();
 });
 
-// Carrito en SessionStorage
+// Ejecución
 const carrito = new Carrito();
 actualizarCarrito();
-// Carrito.html
 mostrarCarritoTable();
 mostrarCarritoResumen();
