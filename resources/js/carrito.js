@@ -19,26 +19,33 @@ class Carrito {
             if (!producto) {
                 Swal.fire({
                     title: 'El producto no existe.',
-                    icon: "error"
-                });
-            } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
-                const item = this.items.find(item => item.producto.id == producto.id);
-                if (item) {
-                    item.cantidad = cantidad;
-                }
-                sessionStorage.setItem("carrito", JSON.stringify(carrito));
-                mostrarCarritoModal();
-                Swal.fire({
-                    title: "\'" + producto.nombre + "\' x" + cantidad + " cantidad modificada.",
-                    icon: 'success',
+                    icon: "error",
                     position: 'center',
                     showConfirmButton: false,
                     timer: 1500
                 });
+            } else if (producto.stock > 0 && cantidad > 0 && cantidad <= producto.stock) {
+                const item = this.items.find(item => item.producto.id == producto.id);
+                if (item && item.cantidad != cantidad) {
+                    item.cantidad = cantidad;
+                    sessionStorage.setItem("carrito", JSON.stringify(carrito));
+                    mostrarCarritoTable();
+                    mostrarCarritoResumen();
+                    Swal.fire({
+                        title: "\'" + producto.nombre + "\' x" + cantidad + " cantidad modificada.",
+                        icon: 'success',
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             } else {
                 Swal.fire({
                     title: `El stock máximo es: ${producto.stock}.`,
-                    icon: "error"
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             }
         });
@@ -51,7 +58,10 @@ class Carrito {
         } else {
             Swal.fire({
                 title: 'El producto no existe.',
-                icon: "error"
+                icon: "error",
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1500
             });
         }
     }
@@ -69,6 +79,19 @@ class Carrito {
     }
 }
 
+function obtenerProductos(funcion) {
+    fetch("../resources/json/productos.json")
+        .then((response) => response.json())
+        .then((productos) => funcion(productos))
+        .catch(error => Swal.fire({
+            title: `Se ha producido un error al obtener los productos.`,
+            icon: "error",
+            position: 'center',
+            showConfirmButton: false,
+            timer: 2500
+        }));
+}
+
 function mostrarCarritoTable() {
 
     const tableBody = document.getElementById("tableCarrito");
@@ -80,13 +103,16 @@ function mostrarCarritoTable() {
             row.innerHTML = `
             <tr>
                 <td>
-                    <img src="${item.producto.imagen}" class="img-fluid w-50" loading="lazy" alt="${item.producto.nombre}">
+                    <img src=".${item.producto.imagen}" class="img-fluid w-50" loading="lazy" alt="${item.producto.nombre}">
                     <p class="mb-0">${item.producto.nombre}</p>
                 </td>
-                <td><input class="text-center" type="number" value="${item.cantidad}" min="1" max="${item.producto.stock}" step="1"></td>
+                <td>
+                    <input id="cantidadCarrito${item.producto.id}" class="text-center" type="number" value="${item.cantidad}" min="1" max="${item.producto.stock}" step="1">
+                    <button id="modificarCantidad${item.producto.id}" type="submit" class="btn btn-lg btn-info"><i class="fa-solid fa-arrows-rotate"></i></button>
+                </td>
                 <td>$${item.producto.precio}</td>
                 <td>$${item.producto.precio * item.cantidad}</td>
-                <td><button id="quitar${item.producto.id}" type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button></td>
+                <td><button id="quitar${item.producto.id}" type="submit" class="btn btn-lg btn-danger"><i class="fa-solid fa-trash-can"></i></button></td>
             </tr>
             `;
             tableBody.appendChild(row);
@@ -104,17 +130,37 @@ function mostrarCarritoTable() {
                     if (result.isConfirmed) {
                         carrito.quitarItem(item.producto.id);
                         sessionStorage.setItem("carrito", JSON.stringify(carrito));
-                        actualizarCarrito();
-                        mostrarCarrito();
-                        Swal.fire({
-                            title: "\'" + item.producto.nombre + '\' ha sido quitado del carrito.',
-                            icon: "info",
-                            position: 'center',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        if (carrito?.items?.length > 0) {
+                            actualizarCarrito();
+                            mostrarCarritoTable();
+                            mostrarCarritoResumen();
+                            Swal.fire({
+                                title: "\'" + item.producto.nombre + '\' ha sido quitado del carrito.',
+                                icon: "info",
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "\'" + item.producto.nombre + '\' ha sido quitado del carrito.',
+                                icon: "info",
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            setTimeout(function () { // redirigir
+                                window.location.href = '../index.html';
+                            }, 1500);
+                        }
                     }
                 })
+            });
+            // Input para modificar cantidad
+            const cantidadCarritoInput = document.getElementById(`cantidadCarrito${item.producto.id}`);
+            const modificarCantidadButton = document.getElementById(`modificarCantidad${item.producto.id}`);
+            modificarCantidadButton.addEventListener("click", () => {
+                carrito.modificarCantidad(item.producto.id, Number(cantidadCarritoInput.value));
             });
         }
         const total = document.getElementById("total");
@@ -125,7 +171,7 @@ function mostrarCarritoTable() {
     } else {
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p>El carrito está vacío.</p>
+        <p class="text-muted">El carrito está vacío.</p>
         `;
     }
 }
@@ -170,7 +216,7 @@ function mostrarCarritoResumen() {
     } else {
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p>El carrito está vacío.</p>
+        <p class="text-muted">El carrito está vacío.</p>
         `;
     }
 }
@@ -202,9 +248,11 @@ function generarPago() {
                 icon: "success",
                 position: 'center',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             })
-            // redirigir
+            setTimeout(function () { // redirigir
+                window.location.href = '../index.html';
+            }, 3000);
         }
     })
 }
