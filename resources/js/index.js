@@ -288,7 +288,7 @@ function obtenerProductos(funcion) {
             icon: "error",
             position: 'center',
             showConfirmButton: false,
-            timer: 2000
+            timer: 2500
         }));
 }
 
