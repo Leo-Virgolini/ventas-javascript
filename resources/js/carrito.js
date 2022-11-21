@@ -8,6 +8,13 @@ class Producto {
     }
 }
 
+class Item {
+    constructor(producto, cantidad) {
+        this.producto = producto;
+        this.cantidad = cantidad;
+    }
+}
+
 class Carrito {
     constructor() {
         this.items = [];
@@ -208,9 +215,9 @@ function mostrarCarritoResumen() {
 
         const total = document.getElementById("total");
         total.innerHTML = `
-        <p class="text-success d-flex flex-column">
-            <span>Total <strong>$${carrito.calcularTotal()}</strong></span>
-            <span>Total IVA <strong>$${carrito.calcularTotalIva()}</strong></span>
+        <p class="d-flex flex-column">
+            <span>Total= <strong>$${carrito.calcularTotal()}</strong></span>
+            <span>Total IVA= <strong>$${carrito.calcularTotalIva()}</strong></span>
         </p>
         `;
     } else {
